@@ -1,0 +1,14 @@
+﻿@model IEnumerable<n01569183Cumulative1.Models.Student>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List of all Students</h2>
+@{ 
+    <p>Showing @Model.Count() results.</p>
+}
+
+@foreach(var student in Model)
+            {
+                <p><a href="~/Student/Show/@student.StudentId">@student.StudentFName @student.StudentLName</a></p>
+            }

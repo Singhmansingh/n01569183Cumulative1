@@ -5,21 +5,36 @@
 
 @{
     var teacher = Model;
-    <h2>@teacher.FName @teacher.LName</h2>
+    <h1>@teacher.FName @teacher.LName</h1>
+    <h2>Teacher Information</h2>
     <table class="table">
         <tr>
-            <th>ID</th>
             <th>Employee Number</th>
             <th>Hire Date</th>
             <th>Salary</th>
         </tr>
         <tr>
-            <td>@teacher.Id</td>
             <td>@teacher.EmployeeNumber</td>
             <td>@teacher.HireDate</td>
             <td>@teacher.Salary</td>
         </tr>
     </table>
 }
-<h3></h3>
+<h2>Classes</h2>
+@{
+    <table class="table">
+        <tr>
+            <th>Class Code</th>
+            <th>Class Name</th>
+        </tr>
+        @foreach (var classData in @teacher.classList)
+        {
+            <tr>
+                <td>@classData.ClassCode</td>
+                <td>@classData.ClassName</td>
+            </tr>
+        }
+
+    </table>
+}
 

@@ -1,0 +1,22 @@
+﻿@model n01569183Cumulative1.Models.Class
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+@{ 
+    <h2>@Model.ClassCode - @Model.ClassName</h2>
+    <table class="table">
+        <tr>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+            <th>Teacher ID</th>
+        </tr>
+        <tr>
+            <td>@Model.StartDate</td>
+            <td>@Model.FinishDate</td>
+            <td>@Model.TeacherId</td>
+        </tr>
+    </table>
+}
+

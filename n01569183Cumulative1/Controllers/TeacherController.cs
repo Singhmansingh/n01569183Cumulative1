@@ -20,10 +20,20 @@ namespace n01569183Cumulative1.Controllers
         // GET: Teacher/Show/{id}
         public ActionResult Show(int id)
         {
-            TeacherDataController controller = new TeacherDataController();
-            Teacher teacher = controller.SelectTeacher(id);
+            TeacherDataController teacherDatacontroller = new TeacherDataController();
+            ClassDataController classDataController = new ClassDataController();
+            Teacher teacher = teacherDatacontroller.SelectTeacher(id);
+            teacher.classList = classDataController.SelectClassByTeacherID(id);
 
             return View(teacher);
         }
+        // GET: Teacher/Show/{name}
+        public ActionResult Search(string name)
+        {
+            TeacherDataController teacherDatacontroller = new TeacherDataController();
+            IEnumerable<Teacher> Teachers = teacherDatacontroller.SearchTeacherByName(name);
+            return View(Teachers);
+        }
+
     }
 }

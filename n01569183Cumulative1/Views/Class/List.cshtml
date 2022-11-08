@@ -1,0 +1,15 @@
+﻿@model List<n01569183Cumulative1.Models.Class>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List of all Classes</h2>
+
+@{
+    <p>Showing @Model.Count() results.</p>
+
+}
+@foreach (var course in Model)
+{
+    <p><a href="~/Class/Show/@course.ClassId">@course.ClassCode - @course.ClassName</a></p>
+}

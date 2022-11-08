@@ -1,0 +1,20 @@
+﻿@model n01569183Cumulative1.Models.Student
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+@{
+    <h2>@Model.StudentFName @Model.StudentLName</h2>
+    <h3>General Information</h3>
+    <table class="table">
+        <tr>
+            <th>Student Number</th>
+            <th>Enroll Date</th>
+        </tr>
+        <tr>
+            <td>@Model.StudentNumber</td>
+            <td>@Model.EnrolDate.ToString("D")</td>
+        </tr>
+    </table>
+}
