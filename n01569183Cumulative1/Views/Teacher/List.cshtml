@@ -1,0 +1,11 @@
+﻿@model IEnumerable<n01569183Cumulative1.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<p>Showing @Model.Count() results</p>
+@foreach (var teacher in Model)
+            {
+                <p><a href="~/Teacher/Show/@teacher.Id">@teacher.FName @teacher.LName</a></p>
+            }

@@ -1,0 +1,25 @@
+﻿@model n01569183Cumulative1.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+@{
+    var teacher = Model;
+    <h2>@teacher.FName @teacher.LName</h2>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Employee Number</th>
+            <th>Hire Date</th>
+            <th>Salary</th>
+        </tr>
+        <tr>
+            <td>@teacher.Id</td>
+            <td>@teacher.EmployeeNumber</td>
+            <td>@teacher.HireDate</td>
+            <td>@teacher.Salary</td>
+        </tr>
+    </table>
+}
+<h3></h3>
+
