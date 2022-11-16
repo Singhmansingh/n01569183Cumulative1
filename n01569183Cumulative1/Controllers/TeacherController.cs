@@ -10,10 +10,10 @@ namespace n01569183Cumulative1.Controllers
     {
 
         // GET: Teacher/List
-        public ActionResult List()
+        public ActionResult List(string SearchParam = null)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> teacherList = controller.ListTeachers();
+            IEnumerable<Teacher> teacherList = controller.ListTeachers(SearchParam);
             return View(teacherList);
         }
 
@@ -23,16 +23,9 @@ namespace n01569183Cumulative1.Controllers
             TeacherDataController teacherDatacontroller = new TeacherDataController();
             ClassDataController classDataController = new ClassDataController();
             Teacher teacher = teacherDatacontroller.SelectTeacher(id);
-            teacher.classList = classDataController.SelectClassByTeacherID(id);
+            teacher.classList = new List<Class>();
 
             return View(teacher);
-        }
-        // GET: Teacher/Show/{name}
-        public ActionResult Search(string name)
-        {
-            TeacherDataController teacherDatacontroller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = teacherDatacontroller.SearchTeacherByName(name);
-            return View(Teachers);
         }
 
     }

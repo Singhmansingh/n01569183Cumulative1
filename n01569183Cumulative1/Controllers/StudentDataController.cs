@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Ajax.Utilities;
+using MySql.Data.MySqlClient;
 using n01569183Cumulative1.Models;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,41 @@ namespace n01569183Cumulative1.Controllers
         /// </summary>
         /// <returns>List of type Student</returns>
         [HttpGet]
-        public IEnumerable<Student> ListStudents()
+        [Route("api/StudentData/ListStudents/{SearchParam?}")]
+        public IEnumerable<Student> ListStudents(string SearchParam = null)
         {
-            return SelectAllFromDB();
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Conn.Open();
+            string query = "SELECT * FROM Students";
+            if (SearchParam != null) query = "SELECT * FROM Students WHERE lower(Concat(studentfname,' ', studentlname)) LIKE @search";
+            
+            
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@search", "%" + SearchParam + "%");
+            cmd.Prepare();
+
+            MySqlDataReader ResultSet = cmd.ExecuteReader();
+
+            List<Student> Students = new List<Student>();
+
+            while (ResultSet.Read())
+            {
+                Student _Student = new Student()
+                {
+                    StudentId = Convert.ToInt32(ResultSet["studentid"]),
+                    StudentFName = ResultSet["studentfname"].ToString(),
+                    StudentLName = ResultSet["studentlname"].ToString(),
+                    StudentNumber = ResultSet["studentnumber"].ToString(),
+                    EnrolDate = Convert.ToDateTime(ResultSet["enroldate"]),
+                };
+
+                Students.Add(_Student);
+            }
+            Conn.Clone();
+            return Students;
         }
 
         /// <summary>
@@ -32,8 +65,33 @@ namespace n01569183Cumulative1.Controllers
         [Route("api/StudentData/SelectStudent/{id}")]
         public Student SelectStudent(int id)
         {
-            string conditions = $"studentid = {id}";
-            Student SelectedStudent = SelectAllFromDB(conditions).First();
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Conn.Open();
+            string query = "SELECT * FROM Students WHERE studentid = @id";
+
+            MySqlCommand cmd = Conn.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+            MySqlDataReader ResultSet = cmd.ExecuteReader();
+
+            Student SelectedStudent = new Student(); ;
+
+            while (ResultSet.Read())
+            {
+                Student _Student = new Student()
+                {
+                    StudentId = Convert.ToInt32(ResultSet["studentid"]),
+                    StudentFName = ResultSet["studentfname"].ToString(),
+                    StudentLName = ResultSet["studentlname"].ToString(),
+                    StudentNumber = ResultSet["studentnumber"].ToString(),
+                    EnrolDate = Convert.ToDateTime(ResultSet["enroldate"]),
+                };
+
+                SelectedStudent = _Student;
+            }
+            Conn.Clone();
             return SelectedStudent;
         }
 

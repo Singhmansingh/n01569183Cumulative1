@@ -10,10 +10,10 @@ namespace n01569183Cumulative1.Controllers
     public class StudentController : Controller
     {
         // GET: Student
-        public ActionResult List()
+        public ActionResult List(string SearchParam = null)
         {
             StudentDataController StudentController = new StudentDataController();
-            IEnumerable<Student> Students = StudentController.ListStudents();
+            IEnumerable<Student> Students = StudentController.ListStudents(SearchParam);
             return View(Students);
         }
 
