@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using n01569183Cumulative1.Models;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -68,15 +69,18 @@ namespace n01569183Cumulative1.Controllers
             MySqlConnection Conn = School.AccessDatabase();
 
             Conn.Open();
-            string query = "SELECT * FROM Students WHERE studentid = @id";
-
+            string query = "SELECT students.*, classes.classid, classes.classcode, classes.classname FROM students " +
+                "LEFT JOIN studentsxclasses ON studentsxclasses.studentid = students.studentid " +
+                "LEFT JOIN classes ON  classes.classid = studentsxclasses.classid " +
+                "WHERE students.studentid = @id";
             MySqlCommand cmd = Conn.CreateCommand();
             cmd.CommandText = query;
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
-            Student SelectedStudent = new Student(); ;
+            Student SelectedStudent = new Student();
+            List<Class> StudentClasses = new List<Class>();
 
             while (ResultSet.Read())
             {
@@ -89,8 +93,24 @@ namespace n01569183Cumulative1.Controllers
                     EnrolDate = Convert.ToDateTime(ResultSet["enroldate"]),
                 };
 
+                try
+                {
+                    Class _class = new Class()
+                    {
+                        ClassId = Convert.ToInt32(ResultSet["classid"]),
+                        ClassCode = ResultSet["classcode"].ToString(),
+                        ClassName = ResultSet["classname"].ToString()
+                    };
+                    StudentClasses.Add(_class);
+                }
+                catch
+                {
+                    Debug.WriteLine("Student not enrolled in class.");
+                }
+
                 SelectedStudent = _Student;
             }
+            SelectedStudent.StudentClassList = StudentClasses;
             Conn.Clone();
             return SelectedStudent;
         }
@@ -130,6 +150,7 @@ namespace n01569183Cumulative1.Controllers
 
                 Students.Add(_Student);
             }
+
             Conn.Clone();
             return Students;
         }

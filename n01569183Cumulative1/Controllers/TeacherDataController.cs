@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using n01569183Cumulative1.Models;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -72,7 +73,7 @@ namespace n01569183Cumulative1.Controllers
         public Teacher SelectTeacher(int id)
         {
 
-            string query = "SELECT * FROM Teachers WHERE teacherid = @id" ;
+            string query = "SELECT * FROM Teachers INNER JOIN classes ON classes.teacherid = teachers.teacherid  WHERE teachers.teacherid = @id ";
 
             MySqlConnection Conn = School.AccessDatabase();
 
@@ -84,6 +85,7 @@ namespace n01569183Cumulative1.Controllers
             cmd.Prepare();
             MySqlDataReader ResultSet = cmd.ExecuteReader();
             Teacher SelectedTeacher = new Teacher();
+            List<Class> teacherClasses = new List<Class>();
 
             while (ResultSet.Read())
             {
@@ -97,13 +99,25 @@ namespace n01569183Cumulative1.Controllers
                     Salary = Convert.ToDecimal(ResultSet["salary"])
                 };
 
-                SelectedTeacher = _teacher;
-            }
+                Class _class = new Class()
+                {
+                    ClassId = Convert.ToInt32(ResultSet["classid"]),
+                    ClassCode = ResultSet["classcode"].ToString(),
+                    TeacherId = Convert.ToInt32(ResultSet["teacherid"]),
+                    StartDate = Convert.ToDateTime(ResultSet["startdate"]),
+                    FinishDate = Convert.ToDateTime(ResultSet["finishdate"]),
+                    ClassName = ResultSet["classname"].ToString()
+                };
 
-    
+                SelectedTeacher = _teacher;
+                teacherClasses.Add(_class);
+            }
+            SelectedTeacher.classList = teacherClasses;
+            Debug.WriteLine(SelectedTeacher.classList.Count);
             return SelectedTeacher;
 
         }
+
 
     }
 }

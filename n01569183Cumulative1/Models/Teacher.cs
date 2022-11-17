@@ -13,6 +13,6 @@ namespace n01569183Cumulative1.Models
         public string EmployeeNumber;
         public DateTime HireDate;
         public decimal Salary;
-        public IEnumerable<Class> classList;
+        public List<Class> classList;
     }
 }

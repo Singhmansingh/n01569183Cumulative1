@@ -3,23 +3,24 @@
     ViewBag.Title = "Show";
 }
 
-@{
-    var teacher = Model;
-    <h1>@teacher.FName @teacher.LName</h1>
-    <h2>Teacher Information</h2>
-    <table class="table">
-        <tr>
-            <th>Employee Number</th>
-            <th>Hire Date</th>
-            <th>Salary</th>
-        </tr>
-        <tr>
-            <td>@teacher.EmployeeNumber</td>
-            <td>@teacher.HireDate</td>
-            <td>@teacher.Salary</td>
-        </tr>
-    </table>
-}
+<h1>@Model.FName @Model.LName</h1>
+<p class="caption">Teacher</p>
+<hr />
+
+<h2>General Information</h2>
+<table class="table">
+    <tr>
+        <th>Employee Number</th>
+        <th>Hire Date</th>
+        <th>Salary (/hr)</th>
+    </tr>
+    <tr>
+        <td>@Model.EmployeeNumber</td>
+        <td>@Model.HireDate</td>
+        <td>@Model.Salary</td>
+    </tr>
+</table>
+
 <h2>Classes</h2>
 @{
     <table class="table">
@@ -27,10 +28,10 @@
             <th>Class Code</th>
             <th>Class Name</th>
         </tr>
-        @foreach (var classData in @teacher.classList)
+        @foreach (var classData in @Model.classList)
         {
             <tr>
-                <td>@classData.ClassCode</td>
+                <td><a href="~/Class/Show/@classData.ClassId">@classData.ClassCode</a></td>
                 <td>@classData.ClassName</td>
             </tr>
         }

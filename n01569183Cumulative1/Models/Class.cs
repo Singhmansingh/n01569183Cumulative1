@@ -10,8 +10,10 @@ namespace n01569183Cumulative1.Models
         public int ClassId;
         public string ClassCode;
         public int TeacherId;
+        public Teacher TeacherData;
         public DateTime StartDate;
         public DateTime FinishDate;
         public string ClassName;
+        public List<Student> ClassStudentList;
     }
 }

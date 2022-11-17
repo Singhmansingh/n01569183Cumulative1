@@ -13,7 +13,7 @@ namespace n01569183Cumulative1.Models
         //Change these to match your own local blog database!
         private static string User { get { return "root"; } }
         private static string Password { get { return "root"; } }
-        private static string Database { get { return "school"; } }
+        private static string Database { get { return "schooldb"; } }
         private static string Server { get { return "localhost"; } }
         private static string Port { get { return "3306"; } }
 

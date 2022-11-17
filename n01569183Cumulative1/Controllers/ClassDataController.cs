@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using n01569183Cumulative1.Models;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -66,14 +67,20 @@ namespace n01569183Cumulative1.Controllers
             MySqlConnection Conn = School.AccessDatabase();
 
             Conn.Open();
-            string query = "SELECT * FROM Classes WHERE classid = @id";
+            string query = "SELECT classes.*, teachers.teacherid, teachers.employeenumber, teachers.teacherfname, teachers.teacherlname, students.studentid, students.studentnumber, students.studentfname, students.studentlname FROM Classes " +
+                "LEFT JOIN teachers ON teachers.teacherid = classes.teacherid " +
+                "LEFT JOIN studentsxclasses ON studentsxclasses.classid = classes.classid " +
+                "LEFT JOIN students ON  students.studentid = studentsxclasses.studentid " +
+                "WHERE classes.classid = @id";
 
             MySqlCommand cmd = Conn.CreateCommand();
             cmd.CommandText = query;
             cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
             Class SelectedClass = new Class();
+            List<Student> ClassStudents = new List<Student>();
 
             while (ResultSet.Read())
             {
@@ -84,11 +91,37 @@ namespace n01569183Cumulative1.Controllers
                     TeacherId = Convert.ToInt32(ResultSet["teacherid"]),
                     StartDate = Convert.ToDateTime(ResultSet["startdate"]),
                     FinishDate = Convert.ToDateTime(ResultSet["finishdate"]),
-                    ClassName = ResultSet["classname"].ToString()
+                    ClassName = ResultSet["classname"].ToString(),
+                    TeacherData = new Teacher()
+                    {
+                        Id = Convert.ToInt32(ResultSet["teacherid"]),
+                        FName = ResultSet["teacherfname"].ToString(),
+                        LName = ResultSet["teacherlname"].ToString(),
+                        EmployeeNumber = ResultSet["employeenumber"].ToString(),
+                    }
                 };
+
+                try
+                {
+                    Student _Student = new Student()
+                    {
+                        StudentId = Convert.ToInt32(ResultSet["studentid"]),
+                        StudentNumber = ResultSet["studentnumber"].ToString(),
+                        StudentFName = ResultSet["studentfname"].ToString(),
+                        StudentLName = ResultSet["studentlname"].ToString(),
+                    };
+                    ClassStudents.Add(_Student);
+                }
+                catch
+                {
+                    Debug.WriteLine("No student found... Continuing");
+                }
 
                 SelectedClass = _class;
             }
+
+            SelectedClass.ClassStudentList = ClassStudents;
+            Debug.WriteLine(SelectedClass.ClassStudentList.Count);
             Conn.Clone();
             return SelectedClass;
         }

@@ -12,6 +12,7 @@ namespace n01569183Cumulative1.Models
         public string StudentLName;
         public string StudentNumber;
         public DateTime EnrolDate;
+        public List<Class> StudentClassList;
 
     }
 }

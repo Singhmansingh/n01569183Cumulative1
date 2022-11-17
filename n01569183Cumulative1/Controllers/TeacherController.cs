@@ -23,7 +23,6 @@ namespace n01569183Cumulative1.Controllers
             TeacherDataController teacherDatacontroller = new TeacherDataController();
             ClassDataController classDataController = new ClassDataController();
             Teacher teacher = teacherDatacontroller.SelectTeacher(id);
-            teacher.classList = new List<Class>();
 
             return View(teacher);
         }
