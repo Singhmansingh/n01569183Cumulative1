@@ -4,16 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using n01569183Cumulative1.Models;
+using System.Diagnostics;
 namespace n01569183Cumulative1.Controllers
 {
     public class TeacherController : Controller
     {
 
         // GET: Teacher/List
-        public ActionResult List(string SearchParam = null)
+        public ActionResult List(string SearchParam = null, decimal SalaryParam = -1, string HireParam = null)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> teacherList = controller.ListTeachers(SearchParam);
+            Debug.WriteLine($"name: {SearchParam} | salary: {SalaryParam} | hire: {HireParam}");
+            IEnumerable<Teacher> teacherList = controller.ListTeachers(SearchParam, SalaryParam, HireParam);
             return View(teacherList);
         }
 

@@ -24,20 +24,26 @@ namespace n01569183Cumulative1.Controllers
         /// </example>
         /// <returns>List of type Teacher</returns>
         [HttpGet]
-        [Route("api/TeacherData/ListTeachers/{SearchParam?}")]
+        [Route("api/TeacherData/ListTeachers/{SearchParam?}/{SalaryParam?}/{HireParam?}")]
 
-        public IEnumerable<Teacher> ListTeachers(string SearchParam = null)
+        public IEnumerable<Teacher> ListTeachers(string SearchParam = null, decimal SalaryParam = -1, string HireParam = null )
         {
             MySqlConnection Conn = School.AccessDatabase();
 
             Conn.Open();
             string query = "SELECT * FROM Teachers";
-            if (SearchParam != null) query = "SELECT * FROM Teachers WHERE lower(CONCAT(teacherfname, ' ', teacherlname)) LIKE @search";
-
+            if (SearchParam != null)
+            {
+                query += " WHERE lower(CONCAT(teacherfname, ' ', teacherlname)) LIKE @search";
+                if (SalaryParam > -1) query += " AND salary >= @salary";
+                if (HireParam != null) query += " AND hiredate >= @hiredate";
+            }
             MySqlCommand cmd = Conn.CreateCommand();
             
             cmd.CommandText = query;
-            if(SearchParam != null) cmd.Parameters.AddWithValue("@search", "%" + SearchParam + "%");
+            cmd.Parameters.AddWithValue("@search", "%" + SearchParam + "%");
+            cmd.Parameters.AddWithValue("@salary", SalaryParam);
+            cmd.Parameters.AddWithValue("@hiredate", HireParam);
             cmd.Prepare();
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
