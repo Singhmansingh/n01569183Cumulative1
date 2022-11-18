@@ -5,8 +5,15 @@
 
 <h2>List</h2>
 <form action="/Teacher/List" method="GET">
-    <input type="text" name="SearchParam"/>
+    <h4 id="advancedSettings">Advanced Search</h4>
+    <label for="Name" class="spaced">Name</label>
+    <input id="Name" type="text" name="SearchParam" />
+    <label for="Salary">Salary</label>
+    <input id="Salary" type="text" name="SalaryParam" />
+    <label for="HireDate">Hire Date</label>
+    <input for="HireDate" type="text" name="HireParam" />
     <input type="submit" value="Search" />
+
 </form>
 <p>Showing @Model.Count() results</p>
 <hr/>
