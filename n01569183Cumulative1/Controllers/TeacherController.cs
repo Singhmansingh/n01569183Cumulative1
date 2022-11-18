@@ -10,12 +10,11 @@ namespace n01569183Cumulative1.Controllers
     public class TeacherController : Controller
     {
 
-        // GET: Teacher/List
-        public ActionResult List(string SearchParam = null, decimal SalaryParam = -1, string HireParam = null)
+        // GET: Teacher/List?{SearchParam?}&{SalaryParam?}&{SalaryOperator?}&{HireParam?}&{HireOperator?}
+        public ActionResult List(string SearchParam = null, decimal SalaryParam = -1, string SalaryOperator = "Equal", string HireParam = null, string HireOperator = "Equal")
         {
             TeacherDataController controller = new TeacherDataController();
-            Debug.WriteLine($"name: {SearchParam} | salary: {SalaryParam} | hire: {HireParam}");
-            IEnumerable<Teacher> teacherList = controller.ListTeachers(SearchParam, SalaryParam, HireParam);
+            IEnumerable<Teacher> teacherList = controller.ListTeachers(SearchParam, SalaryParam, SalaryOperator, HireParam, HireOperator);
             return View(teacherList);
         }
 

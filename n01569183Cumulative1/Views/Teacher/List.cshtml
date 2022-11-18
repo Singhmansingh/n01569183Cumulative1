@@ -6,12 +6,36 @@
 <h2>List</h2>
 <form action="/Teacher/List" method="GET">
     <h4 id="advancedSettings">Advanced Search</h4>
-    <label for="Name" class="spaced">Name</label>
+    <label for="Name">Name</label>
     <input id="Name" type="text" name="SearchParam" />
-    <label for="Salary">Salary</label>
-    <input id="Salary" type="text" name="SalaryParam" />
-    <label for="HireDate">Hire Date</label>
-    <input for="HireDate" type="text" name="HireParam" />
+
+    <span>
+        <label for="Salary">Salary</label>
+
+        <input id="salaryLess" type="radio" value="Less" name="SalaryOperator">
+        <label for="salaryLess" class="label label-primary">Less</label>
+        <input id="salaryEqual" type="radio" checked value="Equal" name="SalaryOperator">
+        <label for="salaryEqual" class="label label-primary">Equal</label>
+        <input id="salaryMore" type="radio" value="Greater" name="SalaryOperator">
+        <label for="salaryMore" class="label label-primary">Greater</label>
+
+        <input id="Salary" type="text" name="SalaryParam" />
+    </span>
+
+    <span>
+        <label for="HireDate">Hire Date</label>
+
+        <input id="hireBefore" type="radio" value="Less" name="HireOperator">
+        <label for="hireBefore" class="label label-primary">before</label>
+        <input id="hireEqual" type="radio" checked value="Equal" name="HireOperator">
+        <label for="hireEqual" class="label label-primary">equal</label>
+        <input id="hireAfter" type="radio" value="Greater" name="HireOperator">
+        <label for="hireAfter" class="label label-primary">after</label>
+        
+        <input for="HireDate" type="text" name="HireParam" />
+    </span>
+
+
     <input type="submit" value="Search" />
 
 </form>

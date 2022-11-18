@@ -18,6 +18,12 @@ namespace n01569183Cumulative1.Controllers
         /// <summary>
         /// Gets a list of all Classes
         /// </summary>
+        /// <param name="SearchParam">(optional) String. Name of class or class code to search for</param>
+        /// <example>
+        /// GET: api/ClassData/ListClasses -> List of all classes
+        /// GET: api/ClassData/ListClasses/HTTP -> List of all classes with a class code of HTTP
+        /// GET: api/ClassData/ListClasses/Web -> List of all classes with a name that contains "Web"
+        /// </example>
         /// <returns>List of type Class</returns>
         [HttpGet]
         [Route("api/ClassData/ListClasses/{SearchParam?}")]
@@ -67,6 +73,8 @@ namespace n01569183Cumulative1.Controllers
             MySqlConnection Conn = School.AccessDatabase();
 
             Conn.Open();
+
+            // Gets a list of all students enrolled in that class, and the teacher who teaches it
             string query = "SELECT classes.*, teachers.teacherid, teachers.employeenumber, teachers.teacherfname, teachers.teacherlname, students.studentid, students.studentnumber, students.studentfname, students.studentlname FROM Classes " +
                 "LEFT JOIN teachers ON teachers.teacherid = classes.teacherid " +
                 "LEFT JOIN studentsxclasses ON studentsxclasses.classid = classes.classid " +
@@ -121,7 +129,6 @@ namespace n01569183Cumulative1.Controllers
             }
 
             SelectedClass.ClassStudentList = ClassStudents;
-            Debug.WriteLine(SelectedClass.ClassStudentList.Count);
             Conn.Clone();
             return SelectedClass;
         }

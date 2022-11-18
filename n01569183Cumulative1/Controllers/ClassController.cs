@@ -8,13 +8,14 @@ namespace n01569183Cumulative1.Controllers
 {
     public class ClassController : Controller
     {
-        // GET: Class
+        // GET: Class/List
         public ActionResult List(string SearchParam = null)
         {
             ClassDataController classController = new ClassDataController();
             IEnumerable<Class> Classes = classController.ListClasses(SearchParam);
             return View(Classes);
         }
+        // GET: Class/List/{id}
 
         public ActionResult Show(int id)
         {
